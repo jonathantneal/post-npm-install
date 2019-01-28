@@ -1,0 +1,10 @@
+.*
+*.log*
+/bin.*
+/index.*
+node_modules
+package-lock.json
+
+!.editorconfig
+!.gitignore
+!.travis.yml
