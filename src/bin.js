@@ -1,3 +1,5 @@
 import postNpmInstall from './index.js';
 
-postNpmInstall();
+const setToCi = process.argv.length > 2 && process.argv[2] === 'ci';
+
+postNpmInstall(setToCi);
