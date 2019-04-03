@@ -48,7 +48,7 @@ const checkChanges = () => Promise.all(
 
 const canUseCi = (optForCi) => Promise.all([
 		checkNpmCiExist(),
-		doesPackageJsonExist()
+		doesPackageLockJsonExist()
 	])
 	.then(([hasCiCmd, hasLock]) => {
 		if (!hasLock && optForCi) { 
@@ -74,7 +74,7 @@ const exec = (cwd, opts) => new Promise((resolve, reject) => {
 const checkNpmCiExist = () => exec('npm ci --help')
 .then(output => output.toString() === 'npm ci');
 
-const doesPackageJsonExist = () => new Promise((resolve) => {
+const doesPackageLockJsonExist = () => new Promise((resolve) => {
 	access('package-lock.json', fsconstants.R_OK, (err) => {
 		resolve(!err);
 	});
