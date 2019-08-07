@@ -1,6 +1,6 @@
 {
   "name": "post-npm-install",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "npm install when package.json dependencies have changed post-merge",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
@@ -29,14 +29,14 @@
     "posttest:tape": "npm unlink"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "babel-eslint": "^10.0.2",
     "cross-env": "^5.2.0",
-    "eslint": "^5.16.0",
+    "eslint": "^6.1.0",
     "eslint-config-dev": "^2.0.0",
     "husky": "^3.0.2",
     "pre-commit": "^1.2.2",
