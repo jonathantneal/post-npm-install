@@ -71,8 +71,9 @@ const exec = (cwd, opts) => new Promise((resolve, reject) => {
 	})
 });
 
+// need to trim the \n that gets returned
 const checkNpmCiExist = () => exec('npm ci --help')
-.then(output => output.toString() === 'npm ci');
+.then(output => output.toString().trim() === 'npm ci');
 
 const doesPackageLockJsonExist = () => new Promise((resolve) => {
 	access('package-lock.json', fsconstants.R_OK, (err) => {
@@ -81,6 +82,6 @@ const doesPackageLockJsonExist = () => new Promise((resolve) => {
 });
 
 // return whether the values of two objects differ
-const haveObjectValuesChanged = (dep1, dep2) => Object.keys(Object(dep1))
+const haveObjectValuesChanged = (dep1 = {}, dep2 = {}) => Object.keys(Object(dep1))
 .concat(Object.keys(Object(dep2)))
 .some(key => dep1[key] !== dep2[key]);
