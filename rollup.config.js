@@ -4,10 +4,10 @@ import { terser } from 'rollup-plugin-terser';
 const isBin = String(process.env.NODE_ENV).includes('bin');
 const input = `src/${isBin ? 'bin' : 'index'}.js`;
 const output = isBin
-	? { file: 'bin.js', format: 'cjs' }
+	? { file: 'bin.js', format: 'cjs', strict: false }
 : [
-	{ file: 'index.js', format: 'cjs' },
-	{ file: 'index.mjs', format: 'esm' }
+	{ file: 'index.js', format: 'cjs', strict: false },
+	{ file: 'index.mjs', format: 'esm', strict: false }
 ];
 
 export default {
@@ -20,7 +20,6 @@ export default {
 			]
 		}),
 		terser(),
-		trimUseStrict(),
 		addHashBang()
 	]
 };
@@ -30,15 +29,6 @@ function addHashBang() {
 		name: 'add-hash-bang',
 		renderChunk(code) {
 			return `#!/usr/bin/env node\n${code}`;
-		}
-	};
-}
-
-function trimUseStrict() {
-	return {
-		name: 'trim-use-strict',
-		renderChunk(code) {
-			return code.replace(/\s*('|")?use strict\1;\s*/, '');
 		}
 	};
 }
