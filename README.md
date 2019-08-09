@@ -50,11 +50,11 @@ chmod +x .git/hooks/post-merge
 ```
 
 ## Node Usage
-
+`postNpmInstall` takes a boolean argument indicating whether or not to use `npm ci`.
 ```js
 const postNpmInstall = require('post-npm-install');
 
-postNpmInstall();
+postNpmInstall(true);
 ```
 
 [husky]: https://github.com/typicode/husky
