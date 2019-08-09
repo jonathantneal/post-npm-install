@@ -1,8 +1,11 @@
 import { exec as callbackExec, execSync } from "child_process";
 import { access, constants as fsconstants } from "fs";
+var finder = require("find-package-json");
+var path = require("path");
 
 export default function postNpmInstall(useCi = false) {
-  checkChanges()
+  getPackageJsonFilename()
+    .then(packageJsonFilename => checkChanges(packageJsonFilename))
     .then(haveDepsChanged => {
       if (haveDepsChanged) {
         // figure out if we should use ci command
@@ -29,11 +32,25 @@ export default function postNpmInstall(useCi = false) {
     );
 }
 
+const getPackageJsonFilename = () =>
+  exec("git rev-parse --show-toplevel").then(gitRoot => {
+    let f = finder();
+    const nextPackageJson = f.next();
+    if (nextPackageJson.done) {
+      throw new Error("No package.json found");
+    }
+    // ensure path is posix-formatted for git-show
+    // git rev-parse --show-toplevel returns a \n, which we need to trim
+    return path.posix.format(
+      path.parse(path.relative(gitRoot.trim(), nextPackageJson.filename))
+    );
+  });
+
 // read the current and last package.json files
-const checkChanges = () =>
+const checkChanges = (packageJsonFilename = "package.json") =>
   Promise.all([
-    exec("git show ORIG_HEAD:package.json"),
-    exec("git show HEAD:package.json")
+    exec(`git show ORIG_HEAD:${packageJsonFilename}`),
+    exec(`git show HEAD:${packageJsonFilename}`)
   ]).then(
     pkgs => {
       // read the current and last package.json files as objects
