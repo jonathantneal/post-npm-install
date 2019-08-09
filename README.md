@@ -10,6 +10,15 @@ changed post-merge or post-rebase.
 npm install post-npm-install --save-dev
 ```
 
+## NPM CI
+
+[post-npm-install] supports NPM CI if the repository has a `package-lock.json` and the `npm ci` command is present.
+To make use of `npm ci`, just add `ci` as the first argument to `post-npm-install`.
+
+```sh
+post-npm-install ci
+```
+
 ## Git Usage
 
 The post-merge hook runs after a successful merge command, which may
